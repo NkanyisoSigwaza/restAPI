@@ -13,7 +13,7 @@ router.post("/ninjas",function(req,res,next){
   Ninja.create(req.body).then(function(ninja){
     res.send(ninja);  // once new ninja has been succesfully added to the database
   }).catch(next);   // for error handeling if ninja.create fails program will jump to next midle weae
-  
+
 
 
 });  // /api/ninjas
@@ -25,6 +25,10 @@ router.put("/ninjas/:id",function(req,res,next){
 
 //delete a ninja from db
 router.delete("/ninjas/:id",function(req,res,next){
+
+  Ninja.findByIdAndRemove({_id:req.params.id}).then(function(ninja){
+    res.send(ninja); //pass id of object you want to delete at end of url
+  });
   res.send({type:"DELETE"});
 });  // /api/ninjas
 
