@@ -8,11 +8,31 @@ const router = express.Router();  // think for api use the same as app
 
 const Ninja = require("../models/ninja");
 
+
+
 //get a list of ninjas to the db
 
 router.get("/ninjas",function(req,res,next){
 
-  res.send({type:"GET"});
+/*  Ninja.find({}).then(function(ninja){
+    res.send(ninja);
+  });*/
+
+
+    Ninja.aggregate([{
+      $geoNear: {
+        near: {
+          'type': 'Point',
+          'coordinates': [parseFloat(req.query.lng), parseFloat(req.query.lat)]
+        },
+        distanceField: "dist.calculated",
+        maxDistance: 100000,
+        spherical: true
+      }
+    }]).then((ninjas) => {
+      res.send(ninjas);
+    });
+
 
 });  // /api/ninjas
 
