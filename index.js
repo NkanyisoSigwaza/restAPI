@@ -9,10 +9,16 @@ const mongoose = require("mongoose");
 const app  = express();  // comes with http methods
 
 // connect to mongodb
-mongoose.connect('mongodb://localhost/ninjago');//will create ninjago database
+//mongoose.connect('mongodb://localhost/ninjago', { useNewUrlParser: true });//will create ninjago database
+
+mongoose.connect('mongodb://localhost/ninjago',{ useNewUrlParser: true, useUnifiedTopology: true })
+.then(()=> console.log('Database Connection Successful!!'))
+.catch(err => console.error(err));
 
 
 mongoose.Promise = global.Promise;
+
+app.use(express.static("public"));
 
 
 app.use(bodyParser.json());//will pass json data and attatch it to request
