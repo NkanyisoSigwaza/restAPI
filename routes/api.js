@@ -42,7 +42,13 @@ router.post("/ninjas",function(req,res,next){
 
 router.put("/ninjas/:id",function(req,res,next){
 
-  res.send({type:"put"});
+  Ninja.findByIdAndUpdate({_id:req.params.id},req.body).then(function(ninja){
+    Ninja.findOne({_id:req.params.id}).then(function(ninja){    // returns updated ninja
+      res.send(ninja);
+    })
+  });
+
+  //res.send({type:"put"});
 
 });  // /api/ninjas
 
