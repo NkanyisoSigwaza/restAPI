@@ -20,7 +20,12 @@ app.use(bodyParser.json());//will pass json data and attatch it to request
 //initialise routes
 app.use('/api',routes); //uses routes -- so that you didnt have to put api down each time
 
-
+// error handeling middleware
+app.use(function(err,req,res,next){
+  //console.log(err);
+  res.status(422).send({error:err.message}); // error just a variable  message just a proprty on error
+});
+// 422 status shows something is wrong
 
 //listen for request
 app.listen(4000,function(){
